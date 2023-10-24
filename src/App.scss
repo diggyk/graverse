@@ -41,6 +41,8 @@
 }
 
 .inbound-box {
+  position: relative;
+
   .arrow {
     width: 0;
     height: 0;
@@ -49,7 +51,8 @@
     border-bottom: 25px solid transparent;
     position: absolute;
     right: -40px;
-    top: 25px;
+    top: 55px;
+    z-index: 1000;
 
     &.empty {
       border-left-color: #282c34;
@@ -60,6 +63,8 @@
 }
 
 .outbound-box {
+  position: relative;
+
   .arrow {
     width: 0;
     height: 0;
@@ -68,7 +73,8 @@
     border-bottom: 25px solid transparent;
     position: absolute;
     left: -40px;
-    top: 25px;
+    top: 55px;
+    z-index: 1000;
 
     &.empty {
       border-left-color: #282c34;
@@ -103,9 +109,14 @@
   }
 }
 
+.QueryBoxesWrapper {
+  padding: 50px 0px;
+  color: #6b6b6b;
+}
+
 .QueryStringBox {
   background-color: #1e1e1e;
-  color: #6b6b6b;
+
   margin-top: 10px;
   font-size: 60%;
 }

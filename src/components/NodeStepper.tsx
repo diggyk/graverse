@@ -53,11 +53,10 @@ const createQueriesUsedBlock = (
 
   if (queriesUsed.size !== 0) {
     return (
-      <Row>
-        <Col>
-          <Stack direction="vertical">{queryDivs}</Stack>
-        </Col>
-      </Row>
+      <Stack className="QueryBoxesWrapper" direction="vertical">
+        Queries Used:
+        {queryDivs}
+      </Stack>
     );
   } else {
     return <></>;
@@ -106,7 +105,6 @@ const NodeStepper = (props: NodeStepperProps) => {
 
   // called by other components that want to record their query
   const reportQueryUsed = (desc: string, queryStr: string) => {
-    console.log(`${desc}: ${queryStr}`);
     setQueriesUsed(new Map(queriesUsed.set(desc, queryStr)));
   };
 
@@ -274,9 +272,6 @@ const NodeStepper = (props: NodeStepperProps) => {
     }
   });
 
-  // share our queries with the user
-  let queryUsedBlock = createQueriesUsedBlock(queriesUsed);
-
   return (
     <>
       <Row className="justify-content-center">
@@ -304,7 +299,7 @@ const NodeStepper = (props: NodeStepperProps) => {
           />
         </Col>
       </Row>
-      {queryUsedBlock}
+      {createQueriesUsedBlock(queriesUsed)}
     </>
   );
 };

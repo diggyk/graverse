@@ -96,8 +96,10 @@ const Walk = () => {
       let thisIndex = index;
 
       let nodePropSelections: JSX.Element[] = [];
-      pick.nodePickerSettings.props.forEach((p) => {
-        nodePropSelections.push(<div>{propSelectionToString(p)}</div>);
+      pick.nodePickerSettings.props.forEach((p, idx) => {
+        nodePropSelections.push(
+          <div key={p.name + idx}>{propSelectionToString(p)}</div>
+        );
       });
 
       let node = (
@@ -115,7 +117,7 @@ const Walk = () => {
             <Card.Title style={{ whiteSpace: "nowrap" }}>
               {pick.nodePickerSettings.label}
             </Card.Title>
-            <Card.Text>{nodePropSelections}</Card.Text>
+            <Card.Text as="div">{nodePropSelections}</Card.Text>
           </Card.Body>
         </Card>
       );

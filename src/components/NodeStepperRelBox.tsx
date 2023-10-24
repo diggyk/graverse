@@ -155,13 +155,14 @@ const NodeStepperRelBox = (props: NodeStepperRelBoxProps) => {
   let arrowClasses = adjacents.length == 0 ? "arrow empty" : "arrow";
 
   return (
-    <Card
+    <Stack
       className={inbound ? "inbound-box" : "outbound-box"}
       style={{ minWidth: "100px", minHeight: "100px" }}
     >
       <div className={arrowClasses} />
+      <h4>{inbound ? "Incoming Relationships" : "Outgoing Relationships"}</h4>
       {body}
-    </Card>
+    </Stack>
   );
 };
 
