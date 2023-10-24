@@ -24,6 +24,7 @@ import NodeStepperRelBox from "./NodeStepperRelBox";
 import { PropSelection, RelPickOptions, StepPick } from "../pages/Walk";
 import { useNodePropCounts } from "../hooks/useNodePropCounts";
 import LabelPropDetail from "./LabelPropDetail";
+import { IoTrash } from "react-icons/io5";
 
 // we pass in the valid labels for this node step on the walk
 interface NodeStepperProps {
@@ -129,9 +130,8 @@ const NodeStepper = (props: NodeStepperProps) => {
     props.pickCallback(pick);
   };
 
-  // called when a value is selected for a label
-  const pickPropValue = (prop: string, val: string) => {
-    console.log(`${prop}  ${val}`);
+  // called when a value is selected for a property
+  const addPropSelection = (prop: string, val: string) => {
     let newPropSelections = Array.from(propSelections);
     newPropSelections.push({
       name: prop,
@@ -141,19 +141,38 @@ const NodeStepper = (props: NodeStepperProps) => {
     setPropSelections(newPropSelections);
   };
 
+  // called to remove a prop selection
+  const removePropSelection = (idx: number) => {
+    let newPropSelections = Array.from(propSelections);
+    newPropSelections.splice(idx, 1);
+    setPropSelections(newPropSelections);
+  };
+
   // show our currently selected prop/val selections
-  const showPickedPropVals = (): JSX.Element[] => {
+  const showPickedPropVals = (): JSX.Element => {
     let elements: JSX.Element[] = [];
 
-    propSelections.forEach((p) => {
+    propSelections.forEach((p, idx) => {
       elements.push(
-        <div key={"prop_" + p.name}>
-          {p.name} {p.eq} {p.val}
-        </div>
+        <Stack key={"prop_" + p.name} gap={2} direction="horizontal">
+          <button
+            className="btn btn-secondary"
+            onClick={() => removePropSelection(idx)}
+          >
+            <IoTrash />
+          </button>
+          <span>
+            {p.name} {p.eq} {p.val}
+          </span>
+        </Stack>
       );
     });
 
-    return elements;
+    return (
+      <Stack gap={2} className="NodeStepperPropsSelectedBox">
+        {elements}
+      </Stack>
+    );
   };
 
   // create the list of label options
@@ -204,7 +223,7 @@ const NodeStepper = (props: NodeStepperProps) => {
           <Accordion.Body>
             <LabelPropDetail
               reportQueryStr={reportQueryUsed}
-              reportSelection={pickPropValue}
+              reportSelection={addPropSelection}
               propSelections={propSelections}
               picks={props.picks}
               labelName={label}
@@ -216,7 +235,7 @@ const NodeStepper = (props: NodeStepperProps) => {
       );
     });
 
-    return <Accordion flush>{propItems}</Accordion>;
+    return <Accordion>{propItems}</Accordion>;
   };
 
   // if we are loading, show the spinner instead of the label selector
@@ -269,17 +288,14 @@ const NodeStepper = (props: NodeStepperProps) => {
           />
         </Col>
         <Col>
-          <Card>
-            <Card.Header>Node Picker</Card.Header>
-            <Card.Body>
-              {error}
-              <Card.Title>{pickerBody}</Card.Title>
-              <Card.Text as="div">
-                {showPickedPropVals()}
-                {createPropSelectors()}
-              </Card.Text>
-            </Card.Body>
-          </Card>
+          <Stack>
+            <h3>Node Picker</h3>
+            <div>{error}</div>
+            <div>{pickerBody}</div>
+
+            {showPickedPropVals()}
+            <div>{createPropSelectors()}</div>
+          </Stack>
         </Col>
         <Col>
           <NodeStepperRelBox
