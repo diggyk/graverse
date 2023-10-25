@@ -40,48 +40,41 @@
   }
 }
 
+.walkBox {
+  background-image: linear-gradient(#1e1e1e, #282c34);
+  border-color: #000;
+}
+
 .inbound-box {
   position: relative;
+  margin-top: 50px;
+  padding-right: 30px;
+  border-right: #282c34 solid 4px;
 
-  .arrow {
-    width: 0;
-    height: 0;
-    border-top: 25px solid transparent;
-    border-left: 50px solid #47bad9;
-    border-bottom: 25px solid transparent;
-    position: absolute;
-    right: -40px;
-    top: 55px;
-    z-index: 1000;
-
-    &.empty {
-      border-left-color: #282c34;
-    }
+  .header {
+    vertical-align: middle;
+    font-size: 150%;
+    color: $secondary;
+    padding: 20px 0px;
   }
-
-  margin-right: 25px;
 }
 
 .outbound-box {
   position: relative;
+  margin-top: 50px;
+  padding-left: 30px;
+  border-left: #282c34 solid 4px;
 
-  .arrow {
-    width: 0;
-    height: 0;
-    border-top: 25px solid transparent;
-    border-left: 50px solid #47bad9;
-    border-bottom: 25px solid transparent;
-    position: absolute;
-    left: -40px;
-    top: 55px;
-    z-index: 1000;
-
-    &.empty {
-      border-left-color: #282c34;
-    }
+  .header {
+    vertical-align: middle;
+    font-size: 150%;
+    color: $secondary;
+    padding: 20px 0px;
   }
+}
 
-  margin-left: 25px;
+.picker-box {
+  padding: 0px 10px;
 }
 
 .walkRelationship {

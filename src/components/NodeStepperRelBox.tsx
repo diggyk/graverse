@@ -17,7 +17,7 @@ import {
   RelPickOptions,
   propSelectionToString,
 } from "../pages/Walk";
-import { IoAtCircle } from "react-icons/io5";
+import { IoArrowForward, IoAtCircle } from "react-icons/io5";
 
 type NodeStepperRelBoxProps = {
   inbound?: boolean;
@@ -152,15 +152,30 @@ const NodeStepperRelBox = (props: NodeStepperRelBoxProps) => {
     );
   }
 
-  let arrowClasses = adjacents.length == 0 ? "arrow empty" : "arrow";
+  const buildHeader = (): JSX.Element => {
+    if (inbound) {
+      return (
+        <Stack direction="horizontal" className="header">
+          <div className="ms-auto">Incoming Relationships</div>
+          <IoArrowForward />
+        </Stack>
+      );
+    } else {
+      return (
+        <Stack direction="horizontal" className="header">
+          <IoArrowForward />
+          <div>Outgoing Relationships</div>
+        </Stack>
+      );
+    }
+  };
 
   return (
     <Stack
       className={inbound ? "inbound-box" : "outbound-box"}
       style={{ minWidth: "100px", minHeight: "100px" }}
     >
-      <div className={arrowClasses} />
-      <h4>{inbound ? "Incoming Relationships" : "Outgoing Relationships"}</h4>
+      {buildHeader()}
       {body}
     </Stack>
   );

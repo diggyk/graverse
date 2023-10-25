@@ -198,7 +198,7 @@ const Walk = () => {
         style={{ minHeight: "300px", overflow: "scroll" }}
         gap={2}
         direction="horizontal"
-        className="align-middle rounded border p-4"
+        className="align-middle rounded border p-4 walkBox"
       >
         {buildCurrentWalk()}
       </Stack>

@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { Neo4JContext } from "./Neo4JContext";
-import { useParams } from "react-router";
 
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
+import Stack from "react-bootstrap/Stack";
 import { useNodePropValCounts } from "../hooks/useNodePropValCounts";
 import { PropSelection, StepPick } from "../pages/Walk";
 
@@ -42,7 +42,7 @@ const LabelPropDetail = (props: LabelPropDetailProps) => {
   }, [queryUsed]);
 
   // draw the property counts
-  const drawValueCounts = (): JSX.Element[] => {
+  const drawValueCounts = (): JSX.Element => {
     var valRows: JSX.Element[] = [];
     var valCountList = [...propValCounts.entries()];
 
@@ -65,7 +65,7 @@ const LabelPropDetail = (props: LabelPropDetailProps) => {
       }
 
       const row = (
-        <span
+        <div
           key={labelName + "_" + props.propName + "_" + index}
           className={className}
           {...(clickable
@@ -78,13 +78,13 @@ const LabelPropDetail = (props: LabelPropDetailProps) => {
         >
           <Badge bg="secondary">{count}</Badge>
           <span className="p-1 m-2">{valElement}</span>
-        </span>
+        </div>
       );
       valRows.push(row);
       index++;
     });
 
-    return valRows;
+    return <Stack>{valRows}</Stack>;
   };
 
   if (error) {
@@ -119,7 +119,7 @@ const LabelPropDetail = (props: LabelPropDetailProps) => {
   }
 
   return (
-    <>
+    <Stack>
       {info}
       <div
         style={{ maxHeight: "300px" }}
@@ -127,7 +127,7 @@ const LabelPropDetail = (props: LabelPropDetailProps) => {
       >
         {drawValueCounts()}
       </div>
-    </>
+    </Stack>
   );
 };
 

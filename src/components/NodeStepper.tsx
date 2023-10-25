@@ -274,7 +274,7 @@ const NodeStepper = (props: NodeStepperProps) => {
 
   return (
     <>
-      <Row className="justify-content-center">
+      <Row direction="horizontal" className="justify-content-center">
         <Col>
           <NodeStepperRelBox
             inbound
@@ -283,7 +283,7 @@ const NodeStepper = (props: NodeStepperProps) => {
           />
         </Col>
         <Col>
-          <Stack>
+          <Stack className="picker-box">
             <h3>Node Picker</h3>
             <div>{error}</div>
             <div>{pickerBody}</div>
