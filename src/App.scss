@@ -104,14 +104,22 @@
 
 .QueryBoxesWrapper {
   padding: 50px 0px;
-  color: #6b6b6b;
 }
 
 .QueryStringBox {
+  color: #6b6b6b;
   background-color: #1e1e1e;
 
   margin-top: 10px;
   font-size: 60%;
+  position: relative;
+
+  &:hover {
+    opacity: 0.5;
+    background-color: #6b6b6b;
+    color: #FFF;
+    cursor: pointer;
+  }
 }
 
 .NodeStepperPropsSelectedBox {

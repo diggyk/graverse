@@ -25,6 +25,7 @@ import { PropSelection, RelPickOptions, StepPick } from "../pages/Walk";
 import { useNodePropCounts } from "../hooks/useNodePropCounts";
 import LabelPropDetail from "./LabelPropDetail";
 import { IoTrash } from "react-icons/io5";
+import QueryStringBox from "./QueryStringBox";
 
 // we pass in the valid labels for this node step on the walk
 interface NodeStepperProps {
@@ -45,9 +46,7 @@ const createQueriesUsedBlock = (
       return;
     }
     queryDivs.push(
-      <div key={desc} className="rounded p-2 font-monospace QueryStringBox">
-        {desc}: {queryStr}
-      </div>
+      <QueryStringBox key={desc} name={desc} queryStr={queryStr} />
     );
   });
 

@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { Neo4JContext } from "../components/Neo4JContext";
 import NodeStepper from "../components/NodeStepper";
 import useNextWalkLabels from "../hooks/useNextWalkLabels";
+import QueryStringBox from "../components/QueryStringBox";
 
 // This is the type that determines what property matching conditions the user wants for a node or edge
 export type PropSelection = {
@@ -155,22 +156,7 @@ const Walk = () => {
 
   let queryUsedBlock = <></>;
   if (queryUsed !== "") {
-    queryUsedBlock = (
-      <Stack direction="horizontal">
-        <div
-          className="rounded p-2 font-monospace"
-          style={{
-            backgroundColor: "#1e1e1e",
-            color: "#6b6b6b",
-            marginTop: "10px",
-            marginBottom: "20px",
-            fontSize: "60%",
-          }}
-        >
-          {queryUsed}
-        </div>
-      </Stack>
-    );
+    queryUsedBlock = <QueryStringBox name="Query" queryStr={queryUsed} />;
   }
 
   if (labelsError) {
