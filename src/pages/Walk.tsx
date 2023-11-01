@@ -3,7 +3,12 @@ import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import Stack from "react-bootstrap/Stack";
 
-import { IoArrowBack, IoArrowForward, IoCloseCircle } from "react-icons/io5";
+import {
+  IoArrowBack,
+  IoArrowForward,
+  IoCaretDownCircleOutline,
+  IoCloseCircle,
+} from "react-icons/io5";
 
 import { useContext, useEffect, useState } from "react";
 import { Neo4JContext } from "../components/Neo4JContext";
@@ -150,6 +155,12 @@ const Walk = () => {
 
       index++;
     });
+
+    elements.push(
+      <div key="end" className="walkRelationship">
+        <IoCaretDownCircleOutline className="blankNodeIcon" />
+      </div>
+    );
 
     return elements;
   };

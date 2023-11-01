@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from "react";
 
 import Accordion from "react-bootstrap/Accordion";
 import Badge from "react-bootstrap/Badge";
-import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -24,7 +23,7 @@ import NodeStepperRelBox from "./NodeStepperRelBox";
 import { PropSelection, RelPickOptions, StepPick } from "../pages/Walk";
 import { useNodePropCounts } from "../hooks/useNodePropCounts";
 import LabelPropDetail from "./LabelPropDetail";
-import { IoTrash } from "react-icons/io5";
+import { IoCaretDownCircleOutline, IoTrash } from "react-icons/io5";
 import QueryStringBox from "./QueryStringBox";
 
 // we pass in the valid labels for this node step on the walk
@@ -86,7 +85,7 @@ const NodeStepper = (props: NodeStepperProps) => {
 
   // if we only have 1 option for a label, just select it
   useEffect(() => {
-    if (props.labels.size == 1) {
+    if (props.labels.size === 1) {
       let keys = [...props.labels.keys()];
       setLabel(keys[0]);
     }
@@ -97,9 +96,11 @@ const NodeStepper = (props: NodeStepperProps) => {
 
   // set the queries used if they changed
   useEffect(() => {
-    queriesUsed.set("Adjacent relations", adjRelsQuery);
-    queriesUsed.set("Prop counts", propCountQuery);
-    setQueriesUsed(new Map(queriesUsed));
+    let newQueriesUsed = new Map(queriesUsed);
+    newQueriesUsed.set("Adjacent relations", adjRelsQuery);
+    newQueriesUsed.set("Prop counts", propCountQuery);
+    setQueriesUsed(newQueriesUsed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adjRelsQuery, propCountQuery]);
 
   // called by other components that want to record their query
@@ -271,6 +272,13 @@ const NodeStepper = (props: NodeStepperProps) => {
     }
   });
 
+  const errorElement = error ? <div>{error}</div> : <></>;
+  const propCountErrorElement = propCountError ? (
+    <div>{propCountError}</div>
+  ) : (
+    <></>
+  );
+
   return (
     <>
       <Row direction="horizontal" className="justify-content-center">
@@ -282,13 +290,19 @@ const NodeStepper = (props: NodeStepperProps) => {
           />
         </Col>
         <Col>
-          <Stack className="picker-box">
-            <h3>Node Picker</h3>
-            <div>{error}</div>
+          <Stack className="picker-box" gap={3}>
+            <h3>
+              <IoCaretDownCircleOutline style={{ opacity: 0.25 }} /> Node Picker
+            </h3>
+            {errorElement}
+            {propCountErrorElement}
             <div>{pickerBody}</div>
 
             {showPickedPropVals()}
-            <div>{createPropSelectors()}</div>
+            <div>
+              <p>Pick property/value filters:</p>
+              {createPropSelectors()}
+            </div>
           </Stack>
         </Col>
         <Col>

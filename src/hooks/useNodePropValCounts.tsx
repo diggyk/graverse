@@ -33,58 +33,58 @@ export const useNodePropValCounts = (
     setError(null);
   };
 
-  const loadPropValCounts = async () => {
-    setPropValCounts(new Map());
-
-    if (!driver || !labelName || labelName === "") {
-      return;
-    }
-
-    setLoading(true);
-
-    let queryStr: string;
-
-    if (picks != undefined && picks.length > 0) {
-      queryStr = makeWalkQueryPrefix(picks);
-    } else {
-      queryStr = "MATCH ";
-    }
-    queryStr += `(n:\`${labelName}\``;
-
-    if (propSelections != undefined && propSelections.length != 0) {
-      queryStr += "{";
-      let propParts: string[] = [];
-      propSelections.forEach((p) => {
-        if (isNaN(+p.val)) {
-          // val isn't a number
-          propParts.push(`${p.name}: '${p.val}'`);
-        } else {
-          propParts.push(`${p.name}: ${p.val}`);
-        }
-      });
-      queryStr += propParts.join(", ");
-      queryStr += "}";
-    }
-
-    queryStr += `) RETURN distinct(n.${propName}) as val, count(*) as count;`;
-
-    setQueryUsed(queryStr);
-
-    const session = driver.session();
-    const res = await session.run(queryStr, {}, { timeout: 30000 });
-
-    var newPropValCounts: Map<string, number> = new Map();
-
-    res.records.forEach((record) => {
-      newPropValCounts.set(record.get("val"), record.get("count"));
-    });
-
-    setPropValCounts(newPropValCounts);
-    setLoading(false);
-  };
-
   // load prop counts
   useEffect(() => {
+    const loadPropValCounts = async () => {
+      setPropValCounts(new Map());
+
+      if (!driver || !labelName || labelName === "") {
+        return;
+      }
+
+      setLoading(true);
+
+      let queryStr: string;
+
+      if (picks !== undefined && picks.length > 0) {
+        queryStr = makeWalkQueryPrefix(picks);
+      } else {
+        queryStr = "MATCH ";
+      }
+      queryStr += `(n:\`${labelName}\``;
+
+      if (propSelections !== undefined && propSelections.length !== 0) {
+        queryStr += "{";
+        let propParts: string[] = [];
+        propSelections.forEach((p) => {
+          if (isNaN(+p.val)) {
+            // val isn't a number
+            propParts.push(`${p.name}: '${p.val}'`);
+          } else {
+            propParts.push(`${p.name}: ${p.val}`);
+          }
+        });
+        queryStr += propParts.join(", ");
+        queryStr += "}";
+      }
+
+      queryStr += `) WITH distinct(n) RETURN distinct(n.${propName}) as val, count(*) as count;`;
+
+      setQueryUsed(queryStr);
+
+      const session = driver.session();
+      const res = await session.run(queryStr, {}, { timeout: 30000 });
+
+      var newPropValCounts: Map<string, number> = new Map();
+
+      res.records.forEach((record) => {
+        newPropValCounts.set(record.get("val"), record.get("count"));
+      });
+
+      setPropValCounts(newPropValCounts);
+      setLoading(false);
+    };
+
     loadPropValCounts().catch(handleError);
     clearError();
   }, [driver, labelName, propSelections]);

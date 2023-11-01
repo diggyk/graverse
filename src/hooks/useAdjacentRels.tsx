@@ -25,7 +25,7 @@ const useAdjacentRels = (
   label: string,
   propSelections: PropSelection[]
 ): AdjacentRelsReturns => {
-  const [adjacents, setAdjacents] = useState<AdjacentRelsRecord[]>(new Array());
+  const [adjacents, setAdjacents] = useState<AdjacentRelsRecord[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [queryUsed, setQuery] = useState<string>("");
@@ -48,7 +48,7 @@ const useAdjacentRels = (
       let queryStr = makeWalkQueryPrefix(picks);
       queryStr += `(n:\`${label}\``;
 
-      if (propSelections.length != 0) {
+      if (propSelections.length !== 0) {
         queryStr += "{";
         let propParts: string[] = [];
         propSelections.forEach((p) => {
@@ -96,7 +96,7 @@ const useAdjacentRels = (
 
     runQuery().catch(handleError);
     clearError();
-  }, [driver, label, propSelections]);
+  }, [driver, label, picks, propSelections]);
 
   return { adjacents, loading, error, queryUsed };
 };

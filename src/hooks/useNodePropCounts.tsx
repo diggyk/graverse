@@ -65,7 +65,7 @@ export const useNodePropCounts = (
       queryStr += "}";
     }
 
-    queryStr += `) WITH keys(n) as keys UNWIND keys as key RETURN distinct(key) as key, count(*) as count;`;
+    queryStr += `) WITH distinct(n), keys(n) as keys UNWIND keys as key RETURN distinct(key) as key, count(*) as count;`;
 
     setQueryUsed(queryStr);
 
